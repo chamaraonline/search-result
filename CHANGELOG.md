@@ -10,6 +10,54 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - Add `CategoryPanel` component.
 
+## [3.16.1] - 2019-05-06
+
+## [3.16.0] - 2019-05-06
+### Fixed
+- Remove the default 'Sort By' option on `OrderBy` component.
+
+## [3.15.5] - 2019-05-06
+### Fixed
+- Selected filters not accounting for map parameter.
+
+## [3.15.4] - 2019-05-06
+### Fixed
+- Make `LocalQuery` use productSearchV2 and set default items per page.
+
+## [3.15.3] - 2019-05-06
+### Fixed
+- Decode gallery title.
+
+## [3.15.2] - 2019-05-03
+### Fixed
+- Infinite loading on fetch more.
+
+## [3.15.1] - 2019-05-01
+### Changed
+- Use `recordsFiltered` value from productSearch query.
+
+## [3.15.0] - 2019-04-26
+### Changed
+
+- Use filters value instead of encoded link on navigate.
+
+## [3.14.1] - 2019-04-26
+### Fixed
+- Messages on not found page.
+
+## [3.14.0] - 2019-04-26
+### Changed
+
+- Remove usage of `rest` parameter.
+
+## [3.13.4] - 2019-04-26
+### Fixed
+- undefined error in fetch more.
+
+## [3.13.3] - 2019-04-25
+### Fixed
+- `TotalProducts` proptype error.
+
 ## [3.13.2] - 2019-04-12
 ### Changed
 - Removed option `showTitle` on schema.
