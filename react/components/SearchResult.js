@@ -5,6 +5,7 @@ import { ExtensionPoint, withRuntimeContext } from 'vtex.render-runtime'
 import LoadingOverlay from './LoadingOverlay'
 import { searchResultPropTypes } from '../constants/propTypes'
 import LayoutModeSwitcher, { LAYOUT_MODE } from './LayoutModeSwitcher'
+import LayoutModeSelector from './LayoutModeSelector'
 
 import styles from '../searchResult.css'
 
@@ -23,6 +24,7 @@ class SearchResult extends Component {
 
   state = {
     mobileLayoutMode: this.props.mobileLayout.mode1,
+    desktopLayoutMode: 'normal',
     showLoadingAsOverlay: false,
     // The definitions bellow are required because
     // on SSR the getDerivedStateFromProps isn't called
@@ -47,6 +49,13 @@ class SearchResult extends Component {
 
     this.setState({
       mobileLayoutMode: currentMode,
+    })
+  }
+
+  handleDesktopLayoutChange = e => {
+    e.preventDefault()
+    this.setState({
+      desktopLayoutMode: e.target.value,
     })
   }
 
@@ -120,6 +129,7 @@ class SearchResult extends Component {
       },
     } = this.props
     const {
+      desktopLayoutMode,
       mobileLayoutMode,
       recordsFiltered,
       products = [],
@@ -187,6 +197,7 @@ class SearchResult extends Component {
                 summary={summary}
                 className="bn"
                 mobileLayoutMode={mobileLayoutMode}
+                desktopLayoutMode={desktopLayoutMode}
               />
             ) : (
               <div className={styles.gallery}>
@@ -202,13 +213,20 @@ class SearchResult extends Component {
           {mobile && (
             <div className={`${styles.border2} bg-muted-5 h-50 self-center`} />
           )}
-          {mobile && (
+          {mobile ? (
             <div
               className={`${styles.switch} flex justify-center items-center`}
             >
               <LayoutModeSwitcher
                 activeMode={mobileLayoutMode}
                 onChange={this.handleMobileLayoutChange}
+              />
+            </div>
+          ) : (
+            <div className={`${styles.layoutSelector}`}>
+              <LayoutModeSelector
+                activeMode={this.state.desktopLayoutMode}
+                onChange={this.handleDesktopLayoutChange}
               />
             </div>
           )}
