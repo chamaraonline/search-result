@@ -9,6 +9,27 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Added layout mode selector for desktop view
 
+## [3.17.8] - 2019-05-10
+### Fixed
+- Fixed bug where the extension would break if no title was found.
+
+## [3.17.7] - 2019-05-10
+### Fixed
+- Not found page being shown without filter navigator when the cause for the
+  lack of products is an applied filter.
+
+## [3.17.6] - 2019-05-10
+### Fixed
+- Fetch more on `LocalQuery` was always fetching 10 more items, and not fetching the next maxItemsPerPage items.
+
+## [3.17.5] - 2019-05-10
+### Fixed
+- Displays the correct product cluster title, instead of its id.
+
+## [3.17.4] - 2019-05-10
+### Fixed
+- Refrain from throwing error when LayoutModeSwitcher icon is not found.
+
 ## [3.17.3] - 2019-05-10
 ### Fixed
 - Vendas to Ventas in es.json
