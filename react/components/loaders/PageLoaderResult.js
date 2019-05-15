@@ -30,7 +30,6 @@ class PageLoaderResult extends React.Component {
   nextClick = () => {
     const { onFetchMore, maxItemsPerPage } = this.props
     const { itemsPerPage } = this.state
-
     const pageSize = itemsPerPage !== 0 ? itemsPerPage : maxItemsPerPage
     const nextFrom = this.state.page !== 1 ? this.state.to + 1 : pageSize
     const nextTo =
@@ -48,7 +47,6 @@ class PageLoaderResult extends React.Component {
   rowsClick = (e, value) => {
     const { onFetchMore } = this.props
     this.setState({ itemsPerPage : parseInt(value)})
-
     return onFetchMore(
       this.setStateWithPageParams({
         from: 0,
@@ -61,7 +59,6 @@ class PageLoaderResult extends React.Component {
   previousClick = e => {
     const { onFetchMore, maxItemsPerPage } = this.props
     const { itemsPerPage } = this.state
-
     const pageSize = itemsPerPage !== 0 ? itemsPerPage : maxItemsPerPage
     return onFetchMore(
       this.setStateWithPageParams({

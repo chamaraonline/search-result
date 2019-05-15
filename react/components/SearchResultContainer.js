@@ -59,7 +59,7 @@ const SearchResultContainer = props => {
   const {
     params,
     showMore = false,
-    maxItemsPerPage = 3,
+    maxItemsPerPage = 10,
     searchQuery: {
       fetchMore,
       data: {
@@ -92,7 +92,6 @@ const SearchResultContainer = props => {
     const to = pageData? pageData.to: min(maxItemsPerPage + products.length, recordsFiltered) - 1
 
     setFetchMoreLoading(true)
-
     fetchMore({
       variables: {
         from: from,
@@ -122,8 +121,6 @@ const SearchResultContainer = props => {
                 ...fetchMoreResult.productSearch.products,
               ]
         
-        prevResult.productSearch.products.length = 0
-
         return {
           ...prevResult,
           productSearch: {
