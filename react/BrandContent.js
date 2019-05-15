@@ -58,13 +58,23 @@ class BrandContent extends Component {
                   newProducts: [
                     {
                       productId: '24',
-                      description: 'Test product description',
+                      description: 'Test product 24 description',
+                    },
+                    {
+                      productId: '17',
+                      description: 'Test product 17 description',
                     },
                   ],
                   videos: [
                     {
                       title: 'Video 1',
-                      url: 'https://vimeo.com/126100721',
+                      url:
+                        'https://player.vimeo.com/video/142175573?title=0&byline=0&portrait=0',
+                    },
+                    {
+                      title: 'Video 2',
+                      url:
+                        'https://player.vimeo.com/video/166034292?title=0&byline=0&portrait=0',
                     },
                   ],
                 }
