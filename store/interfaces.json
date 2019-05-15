@@ -6,11 +6,11 @@
       "filter-navigator",
       "total-products",
       "order-by",
-      "search-title"
+      "search-title",
+      "brand-content"
     ],
     "required": [
-      "gallery",
-      "brand-content"
+      "gallery"
     ],
     "component": "index"
   },

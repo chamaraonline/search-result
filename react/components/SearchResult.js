@@ -197,7 +197,8 @@ class SearchResult extends Component {
             ) : (
               <div>
                 {this.props.runtime.page === 'store.search#brand' && (
-                  <BrandContent
+                  <ExtensionPoint
+                    id="brand-content"
                     brandSlug={`${this.props.params.brand}`}
                     summary={summary}
                   />

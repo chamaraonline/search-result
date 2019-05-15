@@ -9,5 +9,10 @@
       "order-by",
       "brand-content"
     ]
+  },
+  "brand-content": {
+    "blocks": [
+      "product-summary"
+    ]
   }
 }
