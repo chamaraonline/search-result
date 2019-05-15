@@ -5,7 +5,7 @@ import classNames from 'classnames'
 import { Query } from 'react-apollo'
 import product from '../queries/product.gql'
 import { ExtensionPoint, useRuntime } from 'vtex.render-runtime'
-import { Card, Spinner } from 'vtex.styleguide'
+import { Spinner } from 'vtex.styleguide'
 import { LAYOUT_MODE } from './LayoutModeSwitcher'
 import styles from '../searchResult.css'
 
