@@ -7,8 +7,17 @@ import { PopupProvider } from './Popup'
 import InfiniteScrollLoaderResult from './loaders/InfiniteScrollLoaderResult'
 import ShowMoreLoaderResult from './loaders/ShowMoreLoaderResult'
 import { searchResultContainerPropTypes } from '../constants/propTypes'
+import PageLoaderResult from './loaders/PageLoaderResult'
 
-const PAGINATION_TYPES = ['show-more', 'infinite-scroll']
+const SHOW_MORE_BUTTON_PAGINATION = 'show-more'
+const INFINITE_SCROLL_PAGINATION = 'infinite-scroll'
+const PAGE_BY_PAGE_PAGINATION = 'page-by-page'
+
+const PAGINATION_TYPES = {
+  'show-more': ShowMoreLoaderResult,
+  'infinite-scroll': InfiniteScrollLoaderResult,
+  'page-by-page': PageLoaderResult,
+}
 
 const categoryWithChildrenReducer = (acc, category) => [
   ...acc,
@@ -50,7 +59,7 @@ const SearchResultContainer = props => {
   const {
     params,
     showMore = false,
-    maxItemsPerPage = 10,
+    maxItemsPerPage = 3,
     searchQuery: {
       fetchMore,
       data: {
@@ -66,27 +75,27 @@ const SearchResultContainer = props => {
       loading,
       variables: { query },
     },
-    pagination,
+    pagination
   } = props
 
   const [fetchMoreLoading, setFetchMoreLoading] = useState(false)
 
   const fetchMoreLocked = useRef(false)
 
-  const handleFetchMore = () => {
+  const handleFetchMore = (pageData) => {
     if (fetchMoreLocked.current || products.length === 0) {
       return
     }
 
     fetchMoreLocked.current = true
-
-    const to = min(maxItemsPerPage + products.length, recordsFiltered) - 1
+    const from = pageData? pageData.from: products.length
+    const to = pageData? pageData.to: min(maxItemsPerPage + products.length, recordsFiltered) - 1
 
     setFetchMoreLoading(true)
 
     fetchMore({
       variables: {
-        from: products.length,
+        from: from,
         to,
       },
       updateQuery: (prevResult, { fetchMoreResult }) => {
@@ -105,25 +114,30 @@ const SearchResultContainer = props => {
             },
           }
         }
+        const products =
+          PAGE_BY_PAGE_PAGINATION === pagination
+            ? fetchMoreResult.productSearch.products
+            : [
+                ...prevResult.productSearch.products,
+                ...fetchMoreResult.productSearch.products,
+              ]
+        
+        prevResult.productSearch.products.length = 0
 
         return {
           ...prevResult,
           productSearch: {
             ...prevResult.productSearch,
-            products: [
-              ...prevResult.productSearch.products,
-              ...fetchMoreResult.productSearch.products,
-            ],
+            products: products,
           },
         }
       },
     })
   }
 
-  const ResultComponent =
-    pagination === PAGINATION_TYPES[0]
-      ? ShowMoreLoaderResult
-      : InfiniteScrollLoaderResult
+  const ResultComponent = PAGINATION_TYPES[pagination]
+    ? PAGINATION_TYPES[pagination]
+    : InfiniteScrollLoaderResult
 
   return (
     <Container className="pt3-m pt5-l">

@@ -7,7 +7,7 @@ import { LAYOUT_MODE } from './components/LayoutModeSwitcher'
 import QueryContext from './components/QueryContext'
 import SettingsContext from './components/SettingsContext'
 
-const PAGINATION_TYPES = ['show-more', 'infinite-scroll']
+const PAGINATION_TYPES = ['show-more', 'infinite-scroll', 'page-by-page']
 const DEFAULT_MAX_ITEMS_PER_PAGE = 10
 
 /**

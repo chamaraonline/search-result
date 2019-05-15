@@ -26,7 +26,6 @@ const LocalQuery = props => {
   } = props
 
   const { page: runtimePage } = useRuntime()
-
   const page = pageQuery ? parseInt(pageQuery) : DEFAULT_PAGE
   const from = (page - 1) * maxItemsPerPage
   const to = from + maxItemsPerPage - 1
