@@ -201,6 +201,7 @@ class SearchResult extends Component {
                     id="brand-content"
                     brandSlug={`${this.props.params.brand}`}
                     summary={summary}
+                    mobileLayoutMode={mobileLayoutMode}
                   />
                 )}
                 {products.length > 0 ? (

@@ -1,4 +1,5 @@
 import React from 'react'
+import { withResizeDetector } from 'react-resize-detector'
 import { path } from 'ramda'
 import classNames from 'classnames'
 import { Query } from 'react-apollo'
@@ -137,4 +138,4 @@ const ProductShelfContent = ({
   )
 }
 
-export default ProductShelfContent
+export default withResizeDetector(ProductShelfContent)

@@ -6,6 +6,7 @@ import getBrandList from './queries/getBrandList.gql'
 import { Spinner, Tab, Tabs } from 'vtex.styleguide'
 import ProductShelfContent from './components/ProductShelfContent'
 import { VideoSlider } from 'vtex.video-slider'
+import styles from './searchResult.css'
 
 class BrandContent extends Component {
   constructor() {
@@ -23,7 +24,7 @@ class BrandContent extends Component {
   }
 
   render() {
-    const { brandSlug, summary } = this.props
+    const { brandSlug, summary, mobileLayoutMode } = this.props
     return (
       <Query query={getBrandList}>
         {({ data: { brands }, brandsLoading, brandListError }) => {
@@ -79,20 +80,25 @@ class BrandContent extends Component {
                   ],
                 }
                 return (
-                  <div>
+                  <div className="bb b--muted-4">
                     <Tabs>
                       <Tab
                         label="New Products"
                         active={this.state.currentTab === 1}
                         onClick={() => this.handleTabChange(1)}
                       >
-                        <div>
+                        <div
+                          className={`${
+                            styles.gallery
+                          } flex flex-row flex-wrap items-stretch bn ph1 pl9-l na4`}
+                        >
                           {brandContent.newProducts &&
                             brandContent.newProducts.map(productItem => (
                               <ProductShelfContent
                                 productId={productItem.productId}
                                 key={`product-content-${productItem.productId}`}
                                 summary={summary}
+                                mobileLayoutMode={mobileLayoutMode}
                               />
                             ))}
                         </div>
@@ -119,7 +125,9 @@ class BrandContent extends Component {
                         onClick={() => this.handleTabChange(3)}
                       >
                         {brandContent.description && (
-                          <p>{brandContent.description}</p>
+                          <div className="w-100 mh9">
+                            <p>{brandContent.description}</p>
+                          </div>
                         )}
                       </Tab>
                     </Tabs>
