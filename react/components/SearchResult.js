@@ -3,6 +3,7 @@ import { Spinner } from 'vtex.styleguide'
 import { ExtensionPoint, withRuntimeContext } from 'vtex.render-runtime'
 
 import LoadingOverlay from './LoadingOverlay'
+import BrandContent from '../BrandContent'
 import { searchResultPropTypes } from '../constants/propTypes'
 import LayoutModeSwitcher, { LAYOUT_MODE } from './LayoutModeSwitcher'
 
@@ -161,7 +162,12 @@ class SearchResult extends Component {
               <ExtensionPoint id="breadcrumb" {...breadcrumbsProps} />
             </div>
           )}
-          <ExtensionPoint id="search-title" params={params} map={map} products={products} />
+          <ExtensionPoint
+            id="search-title"
+            params={params}
+            map={map}
+            products={products}
+          />
           <ExtensionPoint
             id="total-products"
             recordsFiltered={recordsFiltered}
@@ -188,17 +194,27 @@ class SearchResult extends Component {
                   <Spinner />
                 </div>
               </div>
-            ) : products.length > 0 ? (
-              <ExtensionPoint
-                id="gallery"
-                products={products}
-                summary={summary}
-                className="bn"
-                mobileLayoutMode={mobileLayoutMode}
-              />
             ) : (
-              <div className={styles.gallery}>
-                <ExtensionPoint id="not-found" />
+              <div>
+                {this.props.runtime.page === 'store.search#brand' && (
+                  <BrandContent
+                    brandSlug={`${this.props.params.brand}`}
+                    summary={summary}
+                  />
+                )}
+                {products.length > 0 ? (
+                  <ExtensionPoint
+                    id="gallery"
+                    products={products}
+                    summary={summary}
+                    className="bn"
+                    mobileLayoutMode={mobileLayoutMode}
+                  />
+                ) : (
+                  <div className={styles.gallery}>
+                    <ExtensionPoint id="not-found" />
+                  </div>
+                )}
               </div>
             )}
             {children}
