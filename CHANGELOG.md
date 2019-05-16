@@ -7,8 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
-
 - Add `CategoryPanel` component.
+- Added layout mode selector for desktop view
 
 ## [3.17.8] - 2019-05-10
 ### Fixed
