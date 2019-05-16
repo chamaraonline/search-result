@@ -7,7 +7,8 @@
       "total-products",
       "order-by",
       "category-panel",
-      "search-title"
+      "search-title",
+      "brand-content"
     ],
     "required": [
       "gallery"
@@ -40,5 +41,11 @@
   },
   "search-title": {
     "component": "SearchTitle"
+  },
+  "brand-content": {
+    "required": [
+      "product-summary"
+    ],
+    "component": "BrandContent"
   }
 }

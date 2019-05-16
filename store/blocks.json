@@ -7,7 +7,13 @@
       "breadcrumb",
       "total-products",
       "order-by",
-      "category-panel"
+      "category-panel",
+      "brand-content"
+    ]
+  },
+  "brand-content": {
+    "blocks": [
+      "product-summary"
     ]
   }
 }
