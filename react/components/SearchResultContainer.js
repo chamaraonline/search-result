@@ -70,7 +70,7 @@ const SearchResultContainer = props => {
           categoriesTrees,
           recordsFiltered: facetRecordsFiltered,
         } = {},
-        productSearch: { products = [], recordsFiltered } = {},
+        productSearch: { products = [], recordsFiltered, paging = {} } = {},
       } = {},
       loading,
       variables: { query },
@@ -120,12 +120,13 @@ const SearchResultContainer = props => {
                 ...prevResult.productSearch.products,
                 ...fetchMoreResult.productSearch.products,
               ]
-        
+
         return {
           ...prevResult,
           productSearch: {
             ...prevResult.productSearch,
             products: products,
+            paging: fetchMoreResult.productSearch.paging
           },
         }
       },
@@ -157,6 +158,7 @@ const SearchResultContainer = props => {
           specificationFilters={specificationFilters}
           priceRanges={priceRanges}
           tree={categoriesTrees}
+          paging = {paging}
         />
       </PopupProvider>
     </Container>
