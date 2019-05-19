@@ -7,40 +7,57 @@ import { loaderPropTypes } from '../../constants/propTypes'
 
 import searchResult from '../../searchResult.css'
 import { withRuntimeContext } from 'vtex.render-runtime'
+import queryString from 'query-string'
 
 class PageLoaderResult extends React.Component {
-
   nextClick = () => {
     const { onFetchMore, maxItemsPerPage, paging } = this.props
 
     return onFetchMore({
-        from: paging._to + 1,
-        to: paging._to + maxItemsPerPage,
-        page: paging.page + 1,
-      })
+      from: paging._to + 1,
+      to: paging._to + maxItemsPerPage,
+      page: paging.page + 1,
+    })
   }
 
   rowsClick = (e, value) => {
     const { onFetchMore } = this.props
-    this.setState({ itemsPerPage : parseInt(value)})
+    this.setState({ itemsPerPage: parseInt(value) })
     return onFetchMore({
-        from: 0,
-        to: value - 1,
-        page: 1,
-      })
+      from: 0,
+      to: value - 1,
+      page: 1,
+    })
   }
 
   previousClick = e => {
     const { onFetchMore, maxItemsPerPage, paging } = this.props
     return onFetchMore({
-        from: paging._from - maxItemsPerPage,
-        to: paging._to - maxItemsPerPage,
-        page: paging.page - 1,
-      })
+      from: paging._from - maxItemsPerPage,
+      to: paging._to - maxItemsPerPage,
+      page: paging.page - 1,
+    })
+  }
+
+  updateUrl = paging => {
+    const parsed = queryString.parse(location.search)
+
+    if (!paging.page || parsed.page == paging.page) {
+      return null
+    }
+
+    parsed.page = paging.page
+    window.history.pushState(
+      parsed,
+      'PageParams',
+      location.pathname + '?' + queryString.stringify(parsed)
+    )
   }
 
   render() {
     const { recordsFiltered, paging } = this.props
+
+    this.updateUrl(paging)
 
     return (
       <SearchResult {...this.props}>
@@ -51,7 +68,7 @@ class PageLoaderResult extends React.Component {
             <Pagination
               currentItemFrom={paging._from + 1}
               currentItemTo={paging._to + 1}
-              textOf="de"
+              textOf="of"
               textShowRows="show rows"
               totalItems={recordsFiltered}
               onNextClick={this.nextClick}
