@@ -6,7 +6,9 @@
       "filter-navigator",
       "total-products",
       "order-by",
-      "search-title"
+      "category-panel",
+      "search-title",
+      "brand-content"
     ],
     "required": [
       "gallery"
@@ -34,7 +36,16 @@
   "total-products": {
     "component": "TotalProducts"
   },
+  "category-panel": {
+    "component": "CategoryPanel"
+  },
   "search-title": {
     "component": "SearchTitle"
+  },
+  "brand-content": {
+    "required": [
+      "product-summary"
+    ],
+    "component": "BrandContent"
   }
 }

@@ -1,10 +1,11 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { Spinner } from 'vtex.styleguide'
 import { ExtensionPoint, withRuntimeContext } from 'vtex.render-runtime'
 
 import LoadingOverlay from './LoadingOverlay'
 import { searchResultPropTypes } from '../constants/propTypes'
 import LayoutModeSwitcher, { LAYOUT_MODE } from './LayoutModeSwitcher'
+import LayoutModeSelector from './LayoutModeSelector'
 
 import styles from '../searchResult.css'
 
@@ -23,6 +24,7 @@ class SearchResult extends Component {
 
   state = {
     mobileLayoutMode: this.props.mobileLayout.mode1,
+    desktopLayoutMode: 'normal',
     showLoadingAsOverlay: false,
     // The definitions bellow are required because
     // on SSR the getDerivedStateFromProps isn't called
@@ -48,6 +50,13 @@ class SearchResult extends Component {
 
     this.setState({
       mobileLayoutMode: currentMode,
+    })
+  }
+
+  handleDesktopLayoutChange = e => {
+    e.preventDefault()
+    this.setState({
+      desktopLayoutMode: e.target.value,
     })
   }
 
@@ -117,12 +126,15 @@ class SearchResult extends Component {
       fetchMoreLoading,
       summary,
       orderBy,
+      showCategoryPanel,
       showFacetQuantity,
       runtime: {
         hints: { mobile },
       },
+      quantityOfItemsPerRow,
     } = this.props
     const {
+      desktopLayoutMode,
       mobileLayoutMode,
       recordsFiltered,
       facetRecordsFiltered,
@@ -161,7 +173,12 @@ class SearchResult extends Component {
               <ExtensionPoint id="breadcrumb" {...breadcrumbsProps} />
             </div>
           )}
-          <ExtensionPoint id="search-title" params={params} map={map} products={products} />
+          <ExtensionPoint
+            id="search-title"
+            params={params}
+            map={map}
+            products={products}
+          />
           <ExtensionPoint
             id="total-products"
             recordsFiltered={recordsFiltered}
@@ -188,17 +205,39 @@ class SearchResult extends Component {
                   <Spinner />
                 </div>
               </div>
-            ) : products.length > 0 ? (
-              <ExtensionPoint
-                id="gallery"
-                products={products}
-                summary={summary}
-                className="bn"
-                mobileLayoutMode={mobileLayoutMode}
-              />
             ) : (
-              <div className={styles.gallery}>
-                <ExtensionPoint id="not-found" />
+              <div>
+                {this.props.runtime.page === 'store.search#brand' && (
+                  <ExtensionPoint
+                    id="brand-content"
+                    brandSlug={`${this.props.params.brand}`}
+                    summary={summary}
+                    mobileLayoutMode={mobileLayoutMode}
+                  />
+                )}
+                {products.length > 0 ? (
+                  <div>
+                    {showCategoryPanel && (
+                      <ExtensionPoint
+                        id="category-panel"
+                        tree={tree}
+                        quantityOfItemsPerRow={quantityOfItemsPerRow}
+                      />
+                    )}
+                    <ExtensionPoint
+                      id="gallery"
+                      products={products}
+                      summary={summary}
+                      className="bn"
+                      mobileLayoutMode={mobileLayoutMode}
+                      desktopLayoutMode={desktopLayoutMode}
+                    />
+                  </div>
+                ) : (
+                  <div className={styles.gallery}>
+                    <ExtensionPoint id="not-found" />
+                  </div>
+                )}
               </div>
             )}
             {children}
@@ -210,13 +249,20 @@ class SearchResult extends Component {
           {mobile && (
             <div className={`${styles.border2} bg-muted-5 h-50 self-center`} />
           )}
-          {mobile && (
+          {mobile ? (
             <div
               className={`${styles.switch} flex justify-center items-center`}
             >
               <LayoutModeSwitcher
                 activeMode={mobileLayoutMode}
                 onChange={this.handleMobileLayoutChange}
+              />
+            </div>
+          ) : (
+            <div className={`${styles.layoutSelector}`}>
+              <LayoutModeSelector
+                activeMode={this.state.desktopLayoutMode}
+                onChange={this.handleDesktopLayoutChange}
               />
             </div>
           )}

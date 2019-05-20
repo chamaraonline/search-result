@@ -6,7 +6,14 @@
       "not-found",
       "breadcrumb",
       "total-products",
-      "order-by"
+      "order-by",
+      "category-panel",
+      "brand-content"
+    ]
+  },
+  "brand-content": {
+    "blocks": [
+      "product-summary"
     ]
   }
 }

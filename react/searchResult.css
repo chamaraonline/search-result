@@ -7,7 +7,7 @@
   grid-template-areas:
     "breadcrumb breadcrumb breadcrumb breadcrumb breadcrumb breadcrumb"
     "title title title title title title"
-    "filters quantity . . . orderby"
+    "filters quantity . . orderby layoutselector"
     "filters gallery gallery gallery gallery gallery"
     ". pagination pagination pagination pagination pagination";
 }
@@ -83,6 +83,10 @@
   width: 2px;
 }
 
+.categoryPanelHeaderRow {}
+
+.categoryPanelItemRow {}
+
 .gallery {}
 
 .galleryTitle {
@@ -141,9 +145,19 @@
 
 .orderBy {
   -ms-grid-row: 1;
-  -ms-grid-column: 6;
+  -ms-grid-column: 5;
   grid-column: orderby;
   grid-row: orderby;
+  align-self: center;
+  justify-self: stretch;
+  display: flex;
+}
+
+.layoutSelector {
+  -ms-grid-row: 1;
+  -ms-grid-column: 6;
+  grid-column: layoutselector;
+  grid-row: layoutselector;
   align-self: center;
   justify-self: stretch;
   display: flex;

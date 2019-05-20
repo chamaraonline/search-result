@@ -7,6 +7,7 @@ import { map, pluck } from 'ramda'
 import { useRuntime } from 'vtex.render-runtime'
 
 import { LAYOUT_MODE } from './components/LayoutModeSwitcher'
+import { LAYOUT_MODES } from './components/LayoutModeSelector'
 import { productShape } from './constants/propTypes'
 import GalleryItem from './components/GalleryItem'
 
@@ -21,6 +22,7 @@ const TWO_COLUMN_ITEMS = 2
 const Gallery = ({
   products = [],
   mobileLayoutMode = LAYOUT_MODE[0].value,
+  desktopLayoutMode = LAYOUT_MODES[0].value,
   maxItemsPerRow = 5,
   minItemWidth = 240,
   width,
@@ -28,18 +30,23 @@ const Gallery = ({
 }) => {
   const runtime = useRuntime()
 
-  const layoutMode = runtime.hints.mobile ? mobileLayoutMode : 'normal'
+  const layoutMode = runtime.hints.mobile ? mobileLayoutMode : desktopLayoutMode
+
+  const maxItemsPerRowForDisplayMode =
+    layoutMode === LAYOUT_MODES[3].value ? 1 : maxItemsPerRow
 
   const getItemsPerRow = () => {
     const maxItems = Math.floor(width / minItemWidth)
-    return maxItemsPerRow <= maxItems ? maxItemsPerRow : maxItems
+    return maxItemsPerRowForDisplayMode <= maxItems
+      ? maxItemsPerRowForDisplayMode
+      : maxItems
   }
 
   const renderItem = item => {
     const itemsPerRow =
       layoutMode === 'small'
         ? TWO_COLUMN_ITEMS
-        : getItemsPerRow() || maxItemsPerRow
+        : getItemsPerRow() || maxItemsPerRowForDisplayMode
 
     const style = {
       flexBasis: `${100 / itemsPerRow}%`,
@@ -76,6 +83,8 @@ Gallery.propTypes = {
   maxItemsPerRow: PropTypes.number,
   /** Layout mode of the gallery in mobile view */
   mobileLayoutMode: PropTypes.oneOf(pluck('value', LAYOUT_MODE)),
+  /** Layout mode of the gallery in desktop view */
+  desktopLayoutMode: PropTypes.oneOf(pluck('value', LAYOUT_MODES)),
   /** Min Item Width. */
   minItemWidth: PropTypes.number,
 }
