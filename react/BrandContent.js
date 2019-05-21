@@ -80,7 +80,7 @@ class BrandContent extends Component {
                   ],
                 }
                 return (
-                  <div className="bb b--muted-4">
+                  <div className={`${styles.brandGalleryContainer} bb b--muted-4`}>
                     <Tabs>
                       <Tab
                         label="New Products"
@@ -89,7 +89,7 @@ class BrandContent extends Component {
                       >
                         <div
                           className={`${
-                            styles.gallery
+                            styles.brandGalleryProductShelf
                           } flex flex-row flex-wrap items-stretch bn ph1 pl9-l na4`}
                         >
                           {brandContent.newProducts &&
@@ -108,7 +108,7 @@ class BrandContent extends Component {
                         active={this.state.currentTab === 2}
                         onClick={() => this.handleTabChange(2)}
                       >
-                        <div>
+                        <div className={styles.brandGalleryVideos}>
                           {brandContent.videos && (
                             <VideoSlider
                               videos={brandContent.videos.map(video => ({
@@ -124,11 +124,11 @@ class BrandContent extends Component {
                         active={this.state.currentTab === 3}
                         onClick={() => this.handleTabChange(3)}
                       >
-                        {brandContent.description && (
-                          <div className="w-100 mh9">
-                            <p>{brandContent.description}</p>
-                          </div>
-                        )}
+                        <div className={`${styles.brandGalleryDescription} w-100 mh9`}>
+                          {brandContent.description && (
+                            <p className={styles.brandGalleryDescriptionTextContent}>{brandContent.description}</p>
+                          )}
+                        </div>
                       </Tab>
                     </Tabs>
                   </div>
