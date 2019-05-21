@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Spinner } from 'vtex.styleguide'
 import { ExtensionPoint, withRuntimeContext } from 'vtex.render-runtime'
+import { compose, prop, last } from 'ramda'
 
 import LoadingOverlay from './LoadingOverlay'
 import { searchResultPropTypes } from '../constants/propTypes'
@@ -8,6 +9,8 @@ import LayoutModeSwitcher, { LAYOUT_MODE } from './LayoutModeSwitcher'
 import LayoutModeSelector from './LayoutModeSelector'
 
 import styles from '../searchResult.css'
+
+const getLastName = compose(prop('name'), last)
 
 /**
  * Search Result Component.
@@ -162,6 +165,7 @@ class SearchResult extends Component {
     const hideFacets = !map || !map.length
     const showLoading = loading && !fetchMoreLoading
     const showContentLoader = showLoading && !showLoadingAsOverlay
+    const title = getLastName(breadcrumbsProps.breadcrumb)
 
     return (
       <LoadingOverlay loading={showLoading && showLoadingAsOverlay}>
@@ -171,7 +175,7 @@ class SearchResult extends Component {
               <ExtensionPoint id="breadcrumb" {...breadcrumbsProps} />
             </div>
           )}
-          <ExtensionPoint id="search-title" params={params} map={map} products={products} />
+          <ExtensionPoint id="search-title" title={title} />
           <ExtensionPoint
             id="total-products"
             recordsFiltered={recordsFiltered}

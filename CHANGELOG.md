@@ -9,6 +9,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Added layout mode selector for desktop view
 
+## [3.18.1] - 2019-05-20
+### Changed
+- Use new breadcrumb resolver on productSearch.
+- Get Search Title from last breadcrumb name returned.
+
+## [3.18.0] - 2019-05-15
+
+### Added
+
+- Send productClick events to Pixel Manager.
+
 ## [3.17.8] - 2019-05-10
 ### Fixed
 - Fixed bug where the extension would break if no title was found.
