@@ -204,7 +204,7 @@ SearchResultQueryLoader.getSchema = props => {
         title: 'editor.search-result.show-category-panel.title',
         type: 'boolean',
         default: false,
-        isLayout: true,
+        isLayout: false,
       },
       quantityOfItemsPerRow: {
         type: 'number',
@@ -217,7 +217,7 @@ SearchResultQueryLoader.getSchema = props => {
             inline: true,
           },
         },
-        isLayout: true,
+        isLayout: false,
       },
       showFacetQuantity: {
         type: 'boolean',

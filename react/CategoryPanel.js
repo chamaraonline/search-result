@@ -5,6 +5,8 @@ import { Link } from 'vtex.render-runtime'
 import { facetOptionShape } from './constants/propTypes'
 import searchResult from './searchResult.css'
 import CategoriesHighlights from 'vtex.store-components/CategoriesHighlights'
+import { Query } from 'react-apollo'
+import GET_FACET_IMAGES from './queries/facetImagesByFacetIds.graphql'
 
 const renderCategoryShelf = (category, noOfChildren, quantityOfItemsPerRow) => {
   const categoriesHighlighted = category.children
@@ -23,25 +25,44 @@ const renderCategoryShelf = (category, noOfChildren, quantityOfItemsPerRow) => {
     'flex flex-row flex-wrap items-stretch pa3 bn mh4-ns'
   )
   let i = 0
-  const items = []
-  for (i = 0; i < categoriesHighlighted.length; i += quantityOfItemsPerRow) {
-    items.push(categoriesHighlighted.slice(i, i + quantityOfItemsPerRow))
+  let facetIds = []
+  const items = {}
+  for (i = 0; i < categoriesHighlighted.length; i++) {
+    items[`item-${categoriesHighlighted[i].id}`] = categoriesHighlighted[i]
+    facetIds.push(categoriesHighlighted[i].id)
   }
+
   return (
     <Fragment key={`parent-fragment-${category.id}`}>
       <h3 className={`t-heading-3 ${headerClasses}`}>
         <Link to={category.link}>{category.name}</Link>
       </h3>
-      {items.length > 0 &&
-        items.map((item, index) => (
-          <div key={`category-row-${index}`} className={itemClasses}>
-            <CategoriesHighlights
-              categoriesHighlighted={item}
-              showCategoriesHighlighted
-              quantityOfItems={quantityOfItemsPerRow}
-            />
-          </div>
-        ))}
+      {facetIds.length !== 0 && (
+        <Query
+          query={GET_FACET_IMAGES}
+          variables={{
+            facetIds: facetIds.join(','),
+            facetType: 'category',
+            page: 1,
+            pageSize: facetIds.length + 1,
+          }}
+        >
+          {({ loading, error, data }) => {
+            if (loading || error) return ''
+            debugger
+            console.log(data)
+            return (
+              <div className={itemClasses}>
+                <CategoriesHighlights
+                  categoriesHighlighted={items}
+                  showCategoriesHighlighted
+                  quantityOfItems={quantityOfItemsPerRow}
+                />
+              </div>
+            )
+          }}
+        </Query>
+      )}
       {category.children.map(child => {
         if (child.children && child.children.length > 0) {
           return renderCategoryShelf(child, noOfChildren, quantityOfItemsPerRow)

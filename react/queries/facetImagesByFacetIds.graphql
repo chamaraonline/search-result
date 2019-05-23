@@ -1,0 +1,8 @@
+query FacetImagesByFacetIds($facetIds: String, $facetType: String!,  $page: Int, $pageSize: Int){
+  facetImagesByFacetIds(facetIds: $facetIds, facetType: $facetType, page: $page, pageSize: $pageSize){
+    id
+    facetId
+    facetType
+    imageUrl
+  }
+}
