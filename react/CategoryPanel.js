@@ -32,6 +32,8 @@ const renderCategoryShelf = (category, noOfChildren, quantityOfItemsPerRow) => {
     facetIds.push(categoriesHighlighted[i].id)
   }
 
+  const variables = {facetIds: facetIds.join(","), facetType:"category", page: 1, pageSize: 4}
+debugger
   return (
     <Fragment key={`parent-fragment-${category.id}`}>
       <h3 className={`t-heading-3 ${headerClasses}`}>
@@ -40,12 +42,7 @@ const renderCategoryShelf = (category, noOfChildren, quantityOfItemsPerRow) => {
       {facetIds.length !== 0 && (
         <Query
           query={GET_FACET_IMAGES}
-          variables={{
-            facetIds: facetIds.join(','),
-            facetType: 'category',
-            page: 1,
-            pageSize: facetIds.length + 1,
-          }}
+          variables={variables}
         >
           {({ loading, error, data }) => {
             if (loading || error) return ''
