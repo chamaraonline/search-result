@@ -10,49 +10,11 @@ import { searchResultContainerPropTypes } from '../constants/propTypes'
 
 const PAGINATION_TYPES = ['show-more', 'infinite-scroll']
 
-const categoryReducer = (acc, category) => [...acc, `/${category.name}`]
-
-const categoryWithChildrenReducer = (acc, category) => [
-  ...acc,
-  `/${category.name}`,
-  ...category.children.map(children => `/${category.name}/${children.name}`),
-]
-
-const getBreadcrumbsProps = ({
-  category,
-  department,
-  term,
-  categoriesTrees,
-  loading,
-}) => {
-  let categories = []
-
-  const params = {
-    term: term ? decodeURIComponent(term) : term,
-    categories,
-  }
-
-  if (loading || !categoriesTrees) {
-    return params
-  }
-
-  if (department && category) {
-    categories = categoriesTrees.reduce(categoryWithChildrenReducer, [])
-  } else if (department) {
-    categories = categoriesTrees.reduce(categoryReducer, [])
-  }
-
-  params.categories = categories
-
-  return params
-}
-
 /**
  * Search Result Container Component.
  */
 const SearchResultContainer = props => {
   const {
-    params,
     showMore = false,
     maxItemsPerPage = 10,
     searchQuery: {
@@ -63,8 +25,9 @@ const SearchResultContainer = props => {
           specificationFilters = [],
           priceRanges = [],
           categoriesTrees,
+          recordsFiltered: facetRecordsFiltered,
         } = {},
-        productSearch: { products = [], recordsFiltered } = {},
+        productSearch: { products = [], recordsFiltered, breadcrumb = [] } = {},
       } = {},
       loading,
       variables: { query },
@@ -135,14 +98,13 @@ const SearchResultContainer = props => {
         <ResultComponent
           {...props}
           showMore={showMore}
-          breadcrumbsProps={getBreadcrumbsProps(
-            Object.assign({}, params, { categoriesTrees, loading })
-          )}
+          breadcrumbsProps={{ breadcrumb }}
           onFetchMore={handleFetchMore}
           fetchMoreLoading={fetchMoreLoading}
           query={query}
           loading={loading}
           recordsFiltered={recordsFiltered}
+          facetRecordsFiltered={facetRecordsFiltered}
           products={products}
           brands={brands}
           specificationFilters={specificationFilters}

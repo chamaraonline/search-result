@@ -1,12 +1,15 @@
 import React, { Component, Fragment } from 'react'
 import { Spinner } from 'vtex.styleguide'
 import { ExtensionPoint, withRuntimeContext } from 'vtex.render-runtime'
+import { compose, prop, last } from 'ramda'
 
 import LoadingOverlay from './LoadingOverlay'
 import { searchResultPropTypes } from '../constants/propTypes'
 import LayoutModeSwitcher, { LAYOUT_MODE } from './LayoutModeSwitcher'
 
 import styles from '../searchResult.css'
+
+const getLastName = compose(prop('name'), last)
 
 /**
  * Search Result Component.
@@ -28,6 +31,7 @@ class SearchResult extends Component {
     // on SSR the getDerivedStateFromProps isn't called
     products: this.props.products,
     recordsFiltered: this.props.recordsFiltered,
+    facetRecordsFiltered: this.props.facetRecordsFiltered,
     brands: this.props.brands,
     map: this.props.map,
     params: this.props.params,
@@ -63,6 +67,7 @@ class SearchResult extends Component {
       const {
         products,
         recordsFiltered,
+        facetRecordsFiltered,
         brands,
         map,
         params,
@@ -76,6 +81,7 @@ class SearchResult extends Component {
       return {
         products,
         recordsFiltered,
+        facetRecordsFiltered,
         brands,
         map,
         params,
@@ -124,6 +130,7 @@ class SearchResult extends Component {
     const {
       mobileLayoutMode,
       recordsFiltered,
+      facetRecordsFiltered,
       products = [],
       brands,
       map,
@@ -139,13 +146,18 @@ class SearchResult extends Component {
     const term =
       params && params.term ? decodeURIComponent(params.term) : undefined
 
-    if (recordsFiltered === 0 && !loading) {
+    // only show the not found page if the reason for it
+    // isn't because of some applied filter, but that we
+    // *really* don't have any products to show for the
+    // current query
+    if (facetRecordsFiltered === 0 && !loading) {
       return <ExtensionPoint id="not-found" term={term} />
     }
 
     const hideFacets = !map || !map.length
     const showLoading = loading && !fetchMoreLoading
     const showContentLoader = showLoading && !showLoadingAsOverlay
+    const title = getLastName(breadcrumbsProps.breadcrumb)
 
     return (
       <LoadingOverlay loading={showLoading && showLoadingAsOverlay}>
@@ -155,7 +167,7 @@ class SearchResult extends Component {
               <ExtensionPoint id="breadcrumb" {...breadcrumbsProps} />
             </div>
           )}
-          <ExtensionPoint id="search-title" params={params} />
+          <ExtensionPoint id="search-title" title={title} />
           <ExtensionPoint
             id="total-products"
             recordsFiltered={recordsFiltered}
