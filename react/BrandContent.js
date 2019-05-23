@@ -117,13 +117,13 @@ class BrandContent extends Component {
                         <div
                           className={`${
                             styles.brandGalleryDescription
-                          } w-100 mh9`}
+                          } w-100 pa3 pa5-ns`}
                         >
                           {description && (
                             <p
-                              className={
+                              className={`${
                                 styles.brandGalleryDescriptionTextContent
-                              }
+                              } lh-copy`}
                             >
                               {description}
                             </p>
