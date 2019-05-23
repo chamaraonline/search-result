@@ -252,12 +252,26 @@
 
 .filterContent {}
 
-.brandGalleryContainer {}
+.brandGalleryContainer{
+  margin-top: -2px;
+  min-height: 500px;
+  margin-left: 75px;
+}
 
-.brandGalleryProductShelf {}
+.brandGalleryProductShelf, .brandGalleryVideos {
+  border: solid 1px #d4d4d4;
+  margin-top: 0px;
+  padding-bottom: 10px;
+}
 
-.brandGalleryVideos {}
+.brandGalleryDescription{
+  border: solid 1px #d4d4d4;
+  margin-top: 0px;
+  padding-bottom: 10px;
+  margin-left: 0;
+  min-height: 500px;
+}
 
-.brandGalleryDescription {}
-
-.brandGalleryDescriptionTextContent {}
+.brandGalleryDescriptionTextContent {
+  padding: 10px;
+}
