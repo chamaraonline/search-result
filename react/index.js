@@ -18,7 +18,7 @@ export default class SearchResultQueryLoader extends Component {
   static defaultProps = {
     orderBy: SORT_OPTIONS[0].value,
     showCategoryPanel: false,
-    quantityOfItemsPerRow: 4,
+    quantityOfItemsPerRow: 6,
   }
 
   static uiSchema = {
@@ -209,8 +209,8 @@ SearchResultQueryLoader.getSchema = props => {
       quantityOfItemsPerRow: {
         type: 'number',
         title: 'editor.search-result.quantity-of-items-per-row.title',
-        enum: [2, 4],
-        default: 4,
+        enum: [2, 4, 6],
+        default: 6,
         widget: {
           'ui:widget': 'radio',
           'ui:options': {

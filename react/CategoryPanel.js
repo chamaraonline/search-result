@@ -7,8 +7,39 @@ import searchResult from './searchResult.css'
 import CategoriesHighlights from 'vtex.store-components/CategoriesHighlights'
 import { Query } from 'react-apollo'
 import GET_FACET_IMAGES from './queries/facetImagesByFacetIds.graphql'
+import { path } from 'ramda'
 
 const renderCategoryShelf = (category, noOfChildren, quantityOfItemsPerRow) => {
+
+  const graphqlData = {
+    facetImagesByFacetIds: [
+      {
+        id: "5bfa7994-7d2c-11e9-828f-d599ef464471",
+        facetId: "21",
+        facetType: "category",
+        imageUrl: "https://biscoindqa.vteximg.com.br/arquivos/ids/155433/aic-soic-adapter-4414-316lf-200px.original.jpg?v=636254739623700000"
+      },
+      {
+        id: "4ff905a9-7d2c-11e9-828f-d599ef464471",
+        facetId: "12",
+        facetType: "category",
+        imageUrl: "https://biscoindqa.vteximg.com.br/arquivos/ids/155431/right-angle-board-mount-lp5.jpg?v=636254726223600000"
+      },
+      {
+        id: "61fa1f3f-7d2c-11e9-828f-d599ef464471",
+        facetId: "4",
+        facetType: "category",
+        imageUrl: "https://biscoindqa.vteximg.com.br/arquivos/ids/155497/Monochrome_Module_HDM128GS12-1.jpg?v=636812422519630000"
+      },
+      {
+        id: "6f51cea0-7d2c-11e9-828f-80cb14c78abf",
+        facetId: "10",
+        facetType: "category",
+        imageUrl: "https://biscoindqa.vteximg.com.br/arquivos/ids/155500/awflogo.png?v=636893401454470000"
+      }
+    ]
+  }
+
   const categoriesHighlighted = category.children
     .slice(0, noOfChildren)
     .map(child => ({
@@ -33,7 +64,7 @@ const renderCategoryShelf = (category, noOfChildren, quantityOfItemsPerRow) => {
   }
 
   const variables = {facetIds: facetIds.join(","), facetType:"category", page: 1, pageSize: 4}
-debugger
+
   return (
     <Fragment key={`parent-fragment-${category.id}`}>
       <h3 className={`t-heading-3 ${headerClasses}`}>
@@ -45,9 +76,18 @@ debugger
           variables={variables}
         >
           {({ loading, error, data }) => {
-            if (loading || error) return ''
-            debugger
-            console.log(data)
+            if (loading) return <div/>
+
+            if(!error) return <div/>
+
+            const categories = path(['facetImagesByFacetIds'], graphqlData)
+            categories.forEach(category => {
+              let key = `item-${category.facetId}`
+              if(Object.keys(items).includes(key)){
+                items[key] = { ...items[key], ...{ image: category.imageUrl} }
+              }
+            })
+
             return (
               <div className={itemClasses}>
                 <CategoriesHighlights
@@ -95,7 +135,7 @@ CategoryPanel.propTypes = {
 CategoryPanel.defaultProps = {
   tree: [],
   noOfCategories: 1000,
-  quantityOfItemsPerRow: 4,
+  quantityOfItemsPerRow: 6,
 }
 
 export default CategoryPanel
