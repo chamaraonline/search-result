@@ -67,9 +67,9 @@ const renderCategoryShelf = (category, noOfChildren, quantityOfItemsPerRow) => {
 
   return (
     <Fragment key={`parent-fragment-${category.id}`}>
-      <h3 className={`t-heading-3 ${headerClasses}`}>
-        <Link to={category.link}>{category.name}</Link>
-      </h3>
+      <h4 className={`t-heading-4 ${headerClasses}`}>
+        <Link className="link c-muted-1" to={category.link}>{category.name}</Link>
+      </h4>
       {facetIds.length !== 0 && (
         <Query
           query={GET_FACET_IMAGES}
