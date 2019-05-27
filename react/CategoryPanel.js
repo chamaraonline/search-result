@@ -34,7 +34,7 @@ const renderCategoryShelf = (category, noOfChildren, quantityOfItemsPerRow) => {
     facetIds.push(categoriesHighlighted[i].id)
   }
 
-  const variables = {facetIds: facetIds.join(","), facetType:"category", page: 1, pageSize: 4}
+  const variables = {facetIds: facetIds.join(","), facetType:"category", page: 1, pageSize: facetIds.length + 1}
 
   return (
     <Fragment key={`parent-fragment-${category.id}`}>
